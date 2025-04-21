@@ -3,3 +3,8 @@
 *.{bat,[bB][aA][tT]} text eol=crlf
 *.{ics,[iI][cC][sS]} text eol=crlf
 *.sh text eol=lf
+
+# Use globstar pattern to match all C# files in subdirectories
+samples/dotnet/**/*.cs linguist-language=C#
+samples/dotnet/**/*.csproj linguist-language=C#
+samples/dotnet/**/*.sln linguist-language=C#
