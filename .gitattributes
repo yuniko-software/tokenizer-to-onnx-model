@@ -7,3 +7,7 @@
 *.cs linguist-language=C#
 *.csproj linguist-language=C#
 *.sln linguist-language=C#
+
+samples/dotnet/**/*.cs linguist-language=C#
+samples/dotnet/**/*.csproj linguist-language=C#
+samples/dotnet/*.sln linguist-language=C#
