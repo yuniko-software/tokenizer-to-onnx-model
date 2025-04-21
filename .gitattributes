@@ -4,13 +4,4 @@
 *.{ics,[iI][cC][sS]} text eol=crlf
 *.sh text eol=lf
 
-# Mark everything in the repository as normal content
-* -linguist-vendored
-
-# Explicitly mark C# files as non-vendored (i.e., they count toward language stats)
-*.cs linguist-vendored=false
-*.csproj linguist-vendored=false
-*.sln linguist-vendored=false
-
-# You can try to vendor (exclude) other languages if they're overwhelming the stats
-*.ipynb linguist-vendored=true
+*.cs linguist-generated=false
