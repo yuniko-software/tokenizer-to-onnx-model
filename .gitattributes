@@ -3,15 +3,3 @@
 *.{bat,[bB][aA][tT]} text eol=crlf
 *.{ics,[iI][cC][sS]} text eol=crlf
 *.sh text eol=lf
-
-*.cs linguist-language=C#
-*.csproj linguist-language=C#
-*.sln linguist-language=C#
-
-*.cs linguist-vendored=false
-*.csproj linguist-vendored=false
-*.sln linguist-vendored=false
-
-*.ipynb linguist-vendored=true
-
-*.cs linguist-generated=false
