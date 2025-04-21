@@ -3,5 +3,3 @@
 *.{bat,[bB][aA][tT]} text eol=crlf
 *.{ics,[iI][cC][sS]} text eol=crlf
 *.sh text eol=lf
-
-*.ipynb linguist-documentation
