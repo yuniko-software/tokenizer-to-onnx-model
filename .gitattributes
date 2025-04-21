@@ -11,3 +11,6 @@
 *.cs linguist-vendored=false
 *.csproj linguist-vendored=false
 *.sln linguist-vendored=false
+
+# You can try to vendor (exclude) other languages if they're overwhelming the stats
+*.ipynb linguist-vendored=true
