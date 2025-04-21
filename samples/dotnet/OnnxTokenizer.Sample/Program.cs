@@ -17,17 +17,3 @@ using var embeddingGenerator = new OnnxEmbeddingGenerator(tokenizerPath, modelPa
 var embedding = embeddingGenerator.GenerateEmbedding(text);
 Console.WriteLine($"Generated embedding length: {embedding.Length}");
 Console.WriteLine($"Sample values: {string.Join(", ", embedding.Take(5))}");
-
-// Demonstrate similarity calculation with a different text
-string text2 = "This is a completely different text in English only.";
-var embedding2 = embeddingGenerator.GenerateEmbedding(text2);
-
-double similarity = OnnxEmbeddingGenerator.CalculateCosineSimilarity(embedding, embedding2);
-Console.WriteLine($"Similarity between texts: {similarity}");
-
-// Demonstrate similarity between similar texts
-string text3 = "A sample text! Example text! Text for testing! Test characters! Text example!";
-var embedding3 = embeddingGenerator.GenerateEmbedding(text3);
-
-double similarity2 = OnnxEmbeddingGenerator.CalculateCosineSimilarity(embedding, embedding3);
-Console.WriteLine($"Similarity between similar texts: {similarity2}");

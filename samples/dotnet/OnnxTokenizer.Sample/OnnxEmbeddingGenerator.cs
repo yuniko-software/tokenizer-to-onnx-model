@@ -35,83 +35,58 @@ public class OnnxEmbeddingGenerator : IDisposable
     /// <returns>The embedding vector as a float array.</returns>
     public float[] GenerateEmbedding(string text)
     {
-        // Create input tensor for tokenizer - np.array([text]) equivalent
+        // Create input tensor for tokenizer
+        var stringTensor = new DenseTensor<string>([1]);
+        stringTensor[0] = text;
+
+        // Create input for tokenizer using CreateFromTensor
         var tokenizerInputs = new List<NamedOnnxValue>
         {
-            NamedOnnxValue.CreateFromTensor("inputs", new DenseTensor<string>(new[] { text }, new[] { 1 }))
+            NamedOnnxValue.CreateFromTensor("inputs", stringTensor)
         };
 
         // Run tokenizer
-        using var tokenizerOutputs = _tokenizerSession.Run(tokenizerInputs);
+        using var tokenizerResults = _tokenizerSession.Run(tokenizerInputs);
+        var tokenizerResultsList = tokenizerResults.ToList();
 
         // Extract tokens and token_indices (order: tokens, instance_indices, token_indices)
-        // This matches the Python: tokens, _, token_indices = tokenizer_outputs
-        var tokens = tokenizerOutputs.ElementAt(0).AsTensor<int>().ToArray();
-        var tokenIndices = tokenizerOutputs.ElementAt(2).AsTensor<int>().ToArray();
+        var tokens = tokenizerResultsList[0].AsTensor<int>().ToArray();
+        var tokenIndices = tokenizerResultsList[2].AsTensor<int>().ToArray();
 
-        // Convert tokenizer outputs to model inputs - similar to convert_tokenizer_outputs in Python
-        var tokenPairs = new List<(int index, int token)>();
-        for (int i = 0; i < tokens.Length && i < tokenIndices.Length; i++)
+        // Convert to input_ids by sorting tokens based on token_indices
+        var tokenPairs = tokens.Zip(tokenIndices, (t, i) => (token: t, index: i))
+            .OrderBy(p => p.index)
+            .Select(p => p.token)
+            .ToArray();
+
+        // Create input_ids tensor with shape [1, tokenPairs.Length]
+        var inputIdsTensor = new DenseTensor<long>([1, tokenPairs.Length]);
+        for (int i = 0; i < tokenPairs.Length; i++)
         {
-            tokenPairs.Add((tokenIndices[i], tokens[i]));
+            inputIdsTensor[0, i] = tokenPairs[i];
         }
 
-        // Sort by indices
-        tokenPairs.Sort();
-        var orderedTokens = tokenPairs.Select(p => p.token).ToArray();
-
-        // Create input_ids tensor - equivalent to np.array([ordered_tokens], dtype=np.int64)
-        var inputIdsTensor = new DenseTensor<long>(new[] { 1, orderedTokens.Length });
-        for (int i = 0; i < orderedTokens.Length; i++)
-        {
-            inputIdsTensor[0, i] = orderedTokens[i];
-        }
-
-        // Create attention_mask - equivalent to np.ones_like(input_ids, dtype=np.int64)
-        var attentionMaskTensor = new DenseTensor<long>(new[] { 1, orderedTokens.Length });
-        for (int i = 0; i < orderedTokens.Length; i++)
+        // Create attention_mask as all 1s with same shape as input_ids
+        var attentionMaskTensor = new DenseTensor<long>([1, tokenPairs.Length]);
+        for (int i = 0; i < tokenPairs.Length; i++)
         {
             attentionMaskTensor[0, i] = 1;
         }
 
-        // Run model - equivalent to model_session.run(None, {"input_ids": input_ids, "attention_mask": attention_mask})
+        // Run the model with the prepared inputs
         var modelInputs = new List<NamedOnnxValue>
         {
             NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
             NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor)
         };
 
-        using var modelOutputs = _modelSession.Run(modelInputs);
+        using var modelResults = _modelSession.Run(modelInputs);
+        var modelResultsList = modelResults.ToList();
 
-        // Extract sentence embedding - like return outputs[1] in Python
-        var sentenceEmbedding = modelOutputs.ElementAt(1).AsTensor<float>().ToArray();
+        // Extract the sentence embedding
+        var sentenceEmbedding = modelResultsList[1].AsTensor<float>().ToArray();
 
         return sentenceEmbedding;
-    }
-
-    /// <summary>
-    /// Calculates cosine similarity between two embedding vectors.
-    /// </summary>
-    /// <param name="vectorA">First embedding vector.</param>
-    /// <param name="vectorB">Second embedding vector.</param>
-    /// <returns>Cosine similarity value between -1 and 1.</returns>
-    public static double CalculateCosineSimilarity(float[] vectorA, float[] vectorB)
-    {
-        if (vectorA.Length != vectorB.Length)
-            throw new ArgumentException("Vectors must be of the same length");
-
-        double dotProduct = 0.0;
-        double normA = 0.0;
-        double normB = 0.0;
-
-        for (int i = 0; i < vectorA.Length; i++)
-        {
-            dotProduct += vectorA[i] * vectorB[i];
-            normA += Math.Pow(vectorA[i], 2);
-            normB += Math.Pow(vectorB[i], 2);
-        }
-
-        return dotProduct / (Math.Sqrt(normA) * Math.Sqrt(normB));
     }
 
     /// <summary>
@@ -123,10 +98,6 @@ public class OnnxEmbeddingGenerator : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Disposes the resources used by the OnnxEmbeddingGenerator.
-    /// </summary>
-    /// <param name="disposing">True if disposing managed resources.</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -141,9 +112,6 @@ public class OnnxEmbeddingGenerator : IDisposable
         }
     }
 
-    /// <summary>
-    /// Finalizer.
-    /// </summary>
     ~OnnxEmbeddingGenerator()
     {
         Dispose(false);
