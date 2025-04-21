@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.35906.104 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnxTokenizer.Sample", "OnnxTokenizer.Sample.csproj", "{AA60ECE8-66DC-445A-9F9B-B640ABBB3806}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnxTokenizer.Sample", "OnnxTokenizer.Sample\OnnxTokenizer.Sample.csproj", "{9286C15B-8FB6-43BD-8BF5-0936A1EC1350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA60ECE8-66DC-445A-9F9B-B640ABBB3806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA60ECE8-66DC-445A-9F9B-B640ABBB3806}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA60ECE8-66DC-445A-9F9B-B640ABBB3806}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA60ECE8-66DC-445A-9F9B-B640ABBB3806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9286C15B-8FB6-43BD-8BF5-0936A1EC1350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9286C15B-8FB6-43BD-8BF5-0936A1EC1350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9286C15B-8FB6-43BD-8BF5-0936A1EC1350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9286C15B-8FB6-43BD-8BF5-0936A1EC1350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CFF5F5F9-00D1-4B72-AD24-92751F9A7501}
+		SolutionGuid = {D740388F-F8CB-41D5-8C49-5E1241853EE9}
 	EndGlobalSection
 EndGlobal
