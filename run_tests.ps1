@@ -1,6 +1,3 @@
-# Script to generate reference embeddings and run tests
-
-# Colors for output
 function Write-Green {
     param([string]$Text)
     Write-Host $Text -ForegroundColor Green
@@ -54,7 +51,6 @@ $packages = @("onnxruntime", "onnxruntime_extensions", "numpy")
 $missingPackages = @()
 
 foreach ($pkg in $packages) {
-    # Fixed syntax for Python import check
     $importCheck = python -c "try:
     import $($pkg.Replace('-', '_'))
     print('OK')
