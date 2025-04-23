@@ -31,7 +31,7 @@ jobs:
       run: |
         mkdir -p onnx
         gh release download v0.0.1-alpha -p "onnx.zip"
-        unzip onnx.zip -d .
+        unzip onnx.zip -d onnx/
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
