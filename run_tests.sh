@@ -41,7 +41,7 @@ MISSING_PACKAGES=()
 
 for pkg in "${PACKAGES[@]}"; do
     # Convert dashes to underscores for import check, remove version specification
-    pkg_name=${pkg%%==*} # Remove version if present (e.g., onnx==1.16.0 -> onnx)
+    pkg_name=${pkg%%==*}
     pkg_import=${pkg_name//-/_}
     if ! python3 -c "import $pkg_import" &> /dev/null; then
         MISSING_PACKAGES+=("$pkg")
