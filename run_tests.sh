@@ -36,7 +36,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # Check if required packages are installed
-PACKAGES=("onnx==1.16.0" "onnxruntime" "onnxruntime-extensions" "numpy" "transformers")
+PACKAGES=("onnx" "onnxruntime" "onnxruntime-extensions" "numpy" "transformers")
 MISSING_PACKAGES=()
 
 for pkg in "${PACKAGES[@]}"; do
