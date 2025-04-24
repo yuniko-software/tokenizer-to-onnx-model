@@ -36,12 +36,13 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # Check if required packages are installed
-PACKAGES=("onnxruntime" "onnxruntime-extensions" "numpy")
+PACKAGES=("onnx" "onnxruntime" "onnxruntime-extensions" "numpy" "transformers")
 MISSING_PACKAGES=()
 
 for pkg in "${PACKAGES[@]}"; do
-    # Convert dashes to underscores for import check
-    pkg_import=${pkg//-/_}
+    # Convert dashes to underscores for import check, remove version specification
+    pkg_name=${pkg%%==*}
+    pkg_import=${pkg_name//-/_}
     if ! python3 -c "import $pkg_import" &> /dev/null; then
         MISSING_PACKAGES+=("$pkg")
     fi
