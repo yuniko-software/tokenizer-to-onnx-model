@@ -39,8 +39,6 @@ public class EmbeddingComparisonTests {
             new FileReader(referenceFile.toFile()),
             new TypeReference<Map<String, float[]>>() {}
         );
-
-        System.out.println("Loaded " + referenceEmbeddings.size() + " reference embeddings from " + referenceFile);
     }
 
     @Test
