@@ -65,12 +65,37 @@ echo -e "${GREEN}Reference embeddings generated successfully!${NC}"
 # Step 2: Run .NET tests
 echo -e "${YELLOW}Running .NET tests...${NC}"
 
-cd samples/dotnet
+pushd samples/dotnet
 dotnet test --verbosity normal
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}ERROR: .NET tests failed!${NC}"
+    popd
+    exit 1
+fi
+popd
+
+echo -e "${GREEN}.NET tests passed successfully!${NC}"
+
+# Step 3: Run Java tests
+echo -e "${YELLOW}Running Java tests...${NC}"
+
+# Check if Maven is available
+if ! command -v mvn &> /dev/null; then
+    echo -e "${RED}ERROR: mvn command not found!${NC}"
+    echo "Please install Maven to run Java tests."
     exit 1
 fi
 
+pushd samples/java
+mvn test
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}ERROR: Java tests failed!${NC}"
+    popd
+    exit 1
+fi
+popd
+
+echo -e "${GREEN}Java tests passed successfully!${NC}"
 echo -e "${GREEN}All tests passed successfully!${NC}"

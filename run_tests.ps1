@@ -103,4 +103,34 @@ try {
     Pop-Location
 }
 
+Write-Green ".NET tests passed successfully!"
+
+# Step 3: Run Java tests
+Write-Yellow "Running Java tests..."
+
+Push-Location "samples/java"
+try {
+    # Check if Maven is available
+    try {
+        $mavenVersion = mvn --version
+    } catch {
+        Write-Red "ERROR: Maven command not found!"
+        Write-Host "Please install Maven to run Java tests."
+        exit 1
+    }
+
+    mvn test
+    if ($LASTEXITCODE -ne 0) {
+        Write-Red "ERROR: Java tests failed!"
+        exit 1
+    }
+} catch {
+    Write-Red "ERROR: Java tests failed!"
+    Write-Host $_.Exception.Message
+    exit 1
+} finally {
+    Pop-Location
+}
+
+Write-Green "Java tests passed successfully!"
 Write-Green "All tests passed successfully!"
