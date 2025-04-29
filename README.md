@@ -1,6 +1,6 @@
 # Hugging Face Tokenizer to ONNX Model
 
-This repository demonstrates how to convert Hugging Face tokenizers to ONNX format and use them along with embedding models in multiple programming languages.
+This repository demonstrates how to convert [Hugging Face](https://github.com/huggingface/transformers) tokenizers to [ONNX](https://github.com/microsoft/onnxruntime) format and use them along with embedding models in multiple programming languages.
 
 ## Key Features
 
@@ -18,7 +18,7 @@ Tokenizers for embedding models are not often implemented in languages other tha
 
 ## The Solution
 
-This repository uses ONNX Runtime Extensions to convert Hugging Face tokenizers to ONNX format. This gives you the complete embedding pipeline in your preferred programming language without having to implement tokenizers yourself.
+This repository uses [ONNX Runtime Extensions](https://github.com/microsoft/onnxruntime-extensions) to convert Hugging Face tokenizers to ONNX format. This gives you the complete embedding pipeline in your preferred programming language without having to implement tokenizers yourself.
 
 ONNX Runtime Extensions are currently supported in:
 - C#
@@ -47,7 +47,7 @@ ONNX Runtime Extensions are currently supported in:
    - Download `model.onnx` and `model.onnx_data` from https://huggingface.co/BAAI/bge-m3/tree/main/onnx
    - Place these files in the `/onnx` folder
    
-   > Note: In this repository, we use `bge-m3` as the embedding model and `XLM-RoBERTa Fast` as the tokenizer.
+   > Note: In this repository, we use [`bge-m3`](https://github.com/FlagOpen/FlagEmbedding) as the embedding model and `XLM-RoBERTa Fast` as the tokenizer.
 
 3. Generate the ONNX tokenizer:
    - Option 1: Run the Jupyter notebook
