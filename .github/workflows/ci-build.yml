@@ -42,7 +42,7 @@ jobs:
     - name: Download model files
       run: |
         mkdir -p onnx
-        gh release download v0.0.1-alpha -p "onnx.zip"
+        gh release download -p "onnx.zip"
         unzip onnx.zip -d onnx/
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
