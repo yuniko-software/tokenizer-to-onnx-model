@@ -1,5 +1,15 @@
 # Hugging Face Tokenizer to ONNX Model
 
+> ⚠️ **Looking for Full BGE-M3 Functionality?**
+> 
+> This repository demonstrates basic tokenizer conversion and generates only **dense embeddings**. If you need the complete BGE-M3 experience with **all three embedding types** (dense, sparse, and ColBERT vectors), check out our new repository:
+> 
+> **[BGE-M3 ONNX](https://github.com/yuniko-software/bge-m3-onnx)**
+> 
+> The new repository provides:
+> - All three BGE-M3 embedding types (dense, sparse, ColBERT)
+> - Production-ready implementations in C#, Java, and Python
+
 This repository demonstrates how to convert [Hugging Face](https://github.com/huggingface/transformers) tokenizers to [ONNX](https://github.com/microsoft/onnxruntime) format and use them along with embedding models in multiple programming languages.
 
 ## Key Features
